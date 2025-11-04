@@ -3,6 +3,7 @@ const app = express();
 const appRoot = require('app-root-path').path;
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const db = require('./oracle.js')
 
 const port = 3000;
 app.listen(port, () => {
@@ -77,6 +78,11 @@ app.get('/main', (req, resp) => {
 app.get('/delay', async (req, resp) => {
     await delay(2000);
     resp.send('2s')
+})
+
+app.get('/deptno', async (req, resp) => {
+    const deptno = await req.query.deptno
+    resp.send(db.getDeptno(deptno))
 })
 
 app.post('/ajax', (req, resp) => {
